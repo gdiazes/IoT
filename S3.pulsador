@@ -1,0 +1,47 @@
+const int PULSADOR= 5;
+byte  pin[10][8] =
+{
+  //A, B, C, D, E, F, G, H
+  { 1, 1, 1, 1, 1, 1, 0, 0 }, // 0
+  { 0, 1, 1, 0, 0, 0, 0, 0 }, // 1
+  { 1, 1, 0, 1, 1, 0, 1, 0 }, // 2
+  { 1, 1, 1, 1, 0, 0, 1, 0 }, // 3
+  { 0, 1, 1, 0, 0, 1, 1, 0 }, // 4
+  { 1, 0, 1, 1, 0, 1, 1, 0 }, // 5
+  { 1, 0, 1, 1, 1, 1, 1, 0 }, // 6
+  { 1, 1, 1, 0, 0, 0, 0, 0 }, // 7
+  { 1, 1, 1, 1, 1, 1, 1, 0 }, // 8
+  { 1, 1, 1, 0, 0, 1, 1, 0 }  // 9
+};
+ 
+void setup() {
+  Serial.begin(9600);
+   
+  for (int i = 6; i <=13; i++)
+  {
+    pinMode(i, OUTPUT);
+  }
+ 
+  
+  pinMode(PULSADOR, INPUT);
+  
+  randomSeed(analogRead(A0));
+}
+ 
+void loop() {
+  int valor = digitalRead(PULSADOR);
+  
+  if (valor == 1)
+  {
+   int NumAleatorio = random(1, 9);
+   
+    
+    for (int Nping = 0; Nping < 8; Nping++)
+    {
+      digitalWrite(Nping + 6, pin[NumAleatorio][Nping]);
+     
+    }
+ 
+    delay(100);
+  }
+}
