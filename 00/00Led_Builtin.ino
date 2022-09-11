@@ -1,5 +1,4 @@
 // BLOQUE 0  
-// C++ code
 /*
 Título:
 Autor: Godofredo Diaz
@@ -18,9 +17,10 @@ void setup()
 // BLOQUE 3
 void loop()
 {
-  digitalWrite(LED_BUILTIN, HIGH);                      //Enviado un 1 digital,HIGH (5V) para encender el LED_BUILTIN.
-  delay(100);                                           // 
-                                                        // 
-  digitalWrite(LED_BUILTIN, LOW);
-  delay(100);                                           // 
+  digitalWrite(LED_BUILTIN, HIGH);                      //Enviado un 1 digital,HIGH, (5V) para encender el LED_BUILTIN.
+  delay(100);                                           //La función delay(), espera  configura un tiempo de espera en milisegundos.
+                                                         
+  digitalWrite(LED_BUILTIN, LOW);                       //Enviado un 0 digital,LOW, (0V) para apagar el LED_BUILTIN. 
+  delay(100);                                           //La función delay(), espera  configura un tiempo de espera en milisegundos.                                           
+  
 }
