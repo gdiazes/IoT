@@ -169,3 +169,5 @@ void loop() {
     Serial.printf("Message: %.2f \n", gasResistance);
   }
 }
+
+Creditos: https://randomnerdtutorials.com/esp8266-nodemcu-mqtt-publish-bme680-arduino/
