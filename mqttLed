@@ -1,3 +1,4 @@
+#include <ESP8266WiFi.h>
 #include <WiFi.h>
 #include <PubSubClient.h>
 const char* ssid = "............"; //Agregar el nombre de tu WiFi
