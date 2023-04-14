@@ -1,0 +1,22 @@
+// C++ code
+//
+void setup()
+{
+  Serial.begin(9006);
+  Serial.println("Ingrese sus valores: ");
+  
+}
+
+void loop()
+{
+  int valor;
+  while (Serial.available()>0)
+  {
+    valor=Serial.read();
+    if (valor== '1')
+    {
+      Serial.println("valor 1");
+    
+    }
+  }
+}
