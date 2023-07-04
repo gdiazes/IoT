@@ -1,1 +1,93 @@
+Nodos:
+node-red-contrib-telegrambot
+node-red-contrib-telegram-listsLinks to an external site.
+node-red-contrib-telegrambot-home
+ 
+ChatBot
+ ##############################################################################################################
 
+[
+    {
+        "id": "c9a70f2797664b38",
+        "type": "tab",
+        "label": "Flow 5",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "2a7f36da058adfed",
+        "type": "telegrambot-command",
+        "z": "c9a70f2797664b38",
+        "name": "",
+        "bot": "2fc056fbe218403a",
+        "command": "Hola",
+        "commandType": "str",
+        "commandCase": false,
+        "x": 150,
+        "y": 200,
+        "wires": [
+            [
+                "9d0a443269608dc6"
+            ]
+        ]
+    },
+    {
+        "id": "4b0fb4470f70e294",
+        "type": "debug",
+        "z": "c9a70f2797664b38",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 590,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "46baefecb375246e",
+        "type": "telegrambot-notify",
+        "z": "c9a70f2797664b38",
+        "name": "",
+        "bot": "2fc056fbe218403a",
+        "chatId": "",
+        "message": "holaaa",
+        "parseMode": "",
+        "x": 500,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "9d0a443269608dc6",
+        "type": "function",
+        "z": "c9a70f2797664b38",
+        "name": "",
+        "func": "let nombre = msg.telegram.from.first_name;\nmsg.payload = nombre;\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 300,
+        "y": 300,
+        "wires": [
+            [
+                "4b0fb4470f70e294"
+            ]
+        ]
+    },
+    {
+        "id": "2fc056fbe218403a",
+        "type": "telegrambot-config",
+        "botname": "Tot",
+        "usernames": "",
+        "chatIds": "",
+        "pollInterval": "50"
+    }
+]
+###########################################################################################################################
