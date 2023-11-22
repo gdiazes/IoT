@@ -65,3 +65,4 @@ void ProcessCheckbox(EthernetClient cl)
      else
              cl.println("<input type=\"checkbox\" name=\"LED2\" value=\"2\" \\  onclick=\"submit();\">LED2");
    }
+//Fuente: https://www.prometec.net/ethernetled/
