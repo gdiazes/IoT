@@ -3,19 +3,19 @@
 #include <PubSubClient.h>
 
 // Definición de constantes para la conexión WiFi y el servidor MQTT
-const char* ssid = "********";        // SSID de la red WiFi
-const char* password = "*******";    // Contraseña de la red WiFi
-const char* mqtt_server = "*********"; // Dirección del servidor MQTT
+const char* ssid = "********";                                               // SSID de la red WiFi
+const char* password = "*******";                                            // Contraseña de la red WiFi
+const char* mqtt_server = "*********";                                       // Dirección del servidor MQTT
 
-WiFiClient espClient;             // Cliente WiFi para conectar a la red
-PubSubClient client(espClient);   // Cliente MQTT utilizando el cliente WiFi
+WiFiClient espClient;                                                        // Cliente WiFi para conectar a la red
+PubSubClient client(espClient);                                               // Cliente MQTT utilizando el cliente WiFi
 
-unsigned long lastMsg = 0;        // Variable para almacenar el tiempo del último mensaje enviado
-#define MSG_BUFFER_SIZE (50)      // Tamaño del buffer para los mensajes MQTT
-char msg[MSG_BUFFER_SIZE];        // Buffer para los mensajes MQTT
-int value = 0;                    // Contador para los mensajes enviados
-int led = 0;                      // Variable para almacenar el estado de un LED
-int led1 = 1;                     // Variable para almacenar el estado de otro LED
+unsigned long lastMsg = 0;                                                    // Variable para almacenar el tiempo del último mensaje enviado
+#define MSG_BUFFER_SIZE (50)                                                  // Tamaño del buffer para los mensajes MQTT
+char msg[MSG_BUFFER_SIZE];                                                    // Buffer para los mensajes MQTT
+int value = 0;                                                                // Contador para los mensajes enviados
+int led = 0;                                                                  // Variable para almacenar el estado de un LED
+int led1 = 1;                                                                 // Variable para almacenar el estado de otro LED
 
 // Función para configurar la conexión WiFi
 void setup_wifi() {
@@ -37,7 +37,7 @@ void setup_wifi() {
     Serial.println("");
     Serial.println("WiFi connected");
     Serial.println("IP address: ");
-    Serial.println(WiFi.localIP()); // Imprime la dirección IP asignada
+    Serial.println(WiFi.localIP());                                               // Imprime la dirección IP asignada
 }
 
 // Función de callback que se llama cuando llega un mensaje MQTT
@@ -52,9 +52,9 @@ void callback(char* topic, byte* payload, unsigned int length) {
 
     // Enciende o apaga el LED según el primer carácter del mensaje recibido
     if ((char)payload[0] == '1') {
-        digitalWrite(BUILTIN_LED, LOW); // Enciende el LED (activo en bajo)
+        digitalWrite(BUILTIN_LED, LOW);                                               // Enciende el LED (activo en bajo)
     } else {
-        digitalWrite(BUILTIN_LED, HIGH); // Apaga el LED
+        digitalWrite(BUILTIN_LED, HIGH);                                                     // Apaga el LED
     }
 }
 
@@ -64,7 +64,7 @@ void reconnect() {
     while (!client.connected()) {
         Serial.print("Attempting MQTT connection...");
         String clientId = "ESP8266Client-";
-        clientId += String(random(0xffff), HEX); // Genera un ID de cliente aleatorio
+        clientId += String(random(0xffff), HEX);                                     // Genera un ID de cliente aleatorio
 
         // Intenta conectar al servidor MQTT
         if (client.connect(clientId.c_str())) {
@@ -78,36 +78,36 @@ void reconnect() {
             Serial.print("failed, rc=");
             Serial.print(client.state());
             Serial.println(" try again in 5 seconds");
-            delay(5000); // Espera 5 segundos antes de reintentar
+            delay(5000);                                                         // Espera 5 segundos antes de reintentar
         }
     }
 }
 
 // Función de configuración inicial
 void setup() {
-    pinMode(BUILTIN_LED, OUTPUT); // Configura el pin del LED como salida
-    Serial.begin(115200);         // Inicia la comunicación serial
-    setup_wifi();                 // Llama a la función para configurar la conexión WiFi
-    client.setServer(mqtt_server, 1883); // Configura el servidor MQTT
-    client.setCallback(callback); // Configura la función de callback para los mensajes MQTT
+    pinMode(BUILTIN_LED, OUTPUT);                                                   // Configura el pin del LED como salida
+    Serial.begin(115200);                                                           // Inicia la comunicación serial
+    setup_wifi();                                                                   // Llama a la función para configurar la conexión WiFi
+    client.setServer(mqtt_server, 1883);                                            // Configura el servidor MQTT
+    client.setCallback(callback);                                                   // Configura la función de callback para los mensajes MQTT
 }
 
 // Función principal que se ejecuta en loop
 void loop() {
-    if (!client.connected()) { // Revisa si el cliente está conectado
-        reconnect();           // Si no está conectado, intenta reconectar
+    if (!client.connected()) {                                                        // Revisa si el cliente está conectado
+        reconnect();                                                                  // Si no está conectado, intenta reconectar
     }
-    client.loop();             // Mantiene la conexión MQTT
+    client.loop();                                                                     // Mantiene la conexión MQTT
 
     unsigned long now = millis();
-    if (now - lastMsg > 2000) { // Envía un mensaje cada 2 segundos
+    if (now - lastMsg > 2000) {                                                         // Envía un mensaje cada 2 segundos
         lastMsg = now;
         ++value;
-        led = digitalRead(BUILTIN_LED); // Lee el estado del LED
-        led1 = digitalRead(D3);         // Lee el estado de otro LED en el pin D3
-        snprintf(msg, MSG_BUFFER_SIZE, "LED1:%d, LED2:%d", led, led1); // Formatea el mensaje
-        Serial.print("Publish message: ");
-        Serial.println(msg);
-        client.publish("outTecsup", msg); // Publica el mensaje en el topic "outTecsup"
+        led = digitalRead(BUILTIN_LED);                                                  // Lee el estado del LED en el pin D4 (negado)
+        led1 = digitalRead(D3);                                                          // Lee el estado de otro LED en el pin D3
+        snprintf(msg, MSG_BUFFER_SIZE, "LED1:%d, LED2:%d", led, led1);                   // Formatea el mensaje para pasar los valores del led y led1
+        Serial.print("Publish message: ");                                               //Imprime en consola el mensaje enviado por mqtt 
+        Serial.println(msg);                                                             //Imprime en consola el mensaje enviado por mqtt
+        client.publish("outTecsup", msg);                                                // Publica el mensaje en el topic "outTecsup"
     }
 }
