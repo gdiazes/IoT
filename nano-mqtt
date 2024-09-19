@@ -1,0 +1,103 @@
+#include <WiFiNINA.h>         // Biblioteca para el manejo del WiFi
+#include <PubSubClient.h>     // Biblioteca para manejar MQTT
+
+// Variables para la conexión WiFi
+const char* ssid = "NOMBRE_DE_TU_RED";       // Cambia esto por el nombre de tu red WiFi (SSID)
+const char* password = "CONTRASEÑA_DE_TU_RED"; // Cambia esto por la contraseña de tu red WiFi
+
+// Configuración del broker MQTT
+const char* mqttServer = "BROKER_IP"; // Cambia esto por la IP del broker MQTT
+const int mqttPort = 1883;            // Puerto del broker MQTT (por defecto es 1883)
+const char* mqttUser = "usuario";     // Usuario del broker MQTT (si aplica)
+const char* mqttPassword = "contraseña"; // Contraseña del broker MQTT (si aplica)
+
+// Variables para la conexión WiFi y MQTT
+WiFiClient wifiClient;
+PubSubClient mqttClient(wifiClient);
+
+// Configuración del LED BUILTIN
+const int ledPin = LED_BUILTIN; // Pin del LED incorporado
+
+// Función de callback para manejar mensajes MQTT entrantes
+void callback(char* topic, byte* payload, unsigned int length) {
+  // Convierte el payload en un string
+  String message = "";
+  for (int i = 0; i < length; i++) {
+    message += (char)payload[i];
+  }
+
+  // Verifica si el mensaje es para controlar el LED_BUILTIN
+  if (String(topic) == "inled") {
+    if (message == "ON") {
+      digitalWrite(ledPin, HIGH);  // Enciende el LED
+      Serial.println("LED_BUILTIN encendido desde MQTT");
+    } else if (message == "OFF") {
+      digitalWrite(ledPin, LOW);   // Apaga el LED
+      Serial.println("LED_BUILTIN apagado desde MQTT");
+    }
+  }
+}
+
+// Función para conectarse al broker MQTT y suscribirse al tópico `inled`
+void connectMQTT() {
+  while (!mqttClient.connected()) {
+    Serial.println("Conectando al broker MQTT...");
+    if (mqttClient.connect("ArduinoNano33", mqttUser, mqttPassword)) {
+      Serial.println("Conectado al broker MQTT.");
+      mqttClient.subscribe("inled"); // Suscribirse al tópico `inled`
+      Serial.println("Suscrito al tópico 'inled'.");
+    } else {
+      Serial.print("Error de conexión MQTT: ");
+      Serial.print(mqttClient.state());
+      delay(2000);
+    }
+  }
+}
+
+// Función de configuración
+void setup() {
+  // Inicia la comunicación serial
+  Serial.begin(9600);
+  while (!Serial);
+
+  // Configura el LED BUILTIN como salida
+  pinMode(ledPin, OUTPUT);
+
+  // Conexión a WiFi
+  Serial.print("Conectando a la red WiFi: ");
+  Serial.println(ssid);
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(1000);
+    Serial.print(".");
+  }
+  Serial.println("\nConectado a la red WiFi.");
+  Serial.print("Dirección IP: ");
+  Serial.println(WiFi.localIP());
+
+  // Configura el cliente MQTT y la función de callback
+  mqttClient.setServer(mqttServer, mqttPort);
+  mqttClient.setCallback(callback); // Asigna la función de callback para manejar mensajes
+  connectMQTT();
+}
+
+// Función principal de ejecución
+void loop() {
+  // Mantiene la conexión MQTT activa
+  if (!mqttClient.connected()) {
+    connectMQTT();
+  }
+  mqttClient.loop();
+
+  // Lee el estado del LED_BUILTIN y lo envía por MQTT
+  int ledState = digitalRead(ledPin);
+  if (ledState == HIGH) {
+    Serial.println("LED_BUILTIN encendido");
+    mqttClient.publish("LED_BUILTIN", "ON"); // Publica "ON" si el LED está encendido
+  } else {
+    Serial.println("LED_BUILTIN apagado");
+    mqttClient.publish("LED_BUILTIN", "OFF"); // Publica "OFF" si el LED está apagado
+  }
+
+  delay(5000); // Ajusta el delay según la frecuencia con la que quieras enviar el estado
+}
