@@ -2,11 +2,11 @@
 #include <PubSubClient.h>     // Biblioteca para manejar MQTT
 
 // Variables para la conexión WiFi
-const char* ssid = "APIoT";       // Cambia esto por el nombre de tu red WiFi (SSID)
-const char* password = "Tecsup00"; // Cambia esto por la contraseña de tu red WiFi
+const char* ssid = ".............";       // Cambia esto por el nombre de tu red WiFi (SSID)
+const char* password = "T.........."; // Cambia esto por la contraseña de tu red WiFi
 
 // Configuración del broker MQTT
-const char* mqttServer = "192.168.12.100"; // Cambia esto por la IP del broker MQTT
+const char* mqttServer = "............."; // Cambia esto por la IP del broker MQTT
 const int mqttPort = 1883;            // Puerto del broker MQTT (por defecto es 1883)
 // const char* mqttUser = "usuario";     // Ya no se necesita para conexión anónima
 // const char* mqttPassword = "password"; // Ya no se necesita para conexión anónima
