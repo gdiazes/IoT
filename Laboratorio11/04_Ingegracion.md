@@ -1,4 +1,4 @@
-# Guía Final: Integrar Node-RED con Arduino Nano (Sensores y Actuador LCD) vía MQTT
+# Guía Final: Integrar Node-RED con Arduino Nano (Sensores y Actuadores) vía MQTT
 
 Esta guía te mostrará cómo usar Node-RED para:
 1.  Suscribirte a los tópicos MQTT donde el primer Arduino (sensor) publica datos de temperatura y humedad.
