@@ -1,7 +1,3 @@
-¡Excelente punto! Eso fomenta una documentación continua y asegura que los entregables no se dejen para el último minuto. Aquí está la versión actualizada, enfatizando la creación progresiva de un documento de laboratorio:
-
----
-
 **Laboratorio Calificado: Sistema de Automatización Doméstica con Arduino, Node-RED y MQTT**
 
 **1. Presentación del Caso**
@@ -117,6 +113,4 @@ Al finalizar el tiempo asignado, cada grupo deberá entregar **un único documen
         *   **Revisar la organización y claridad general del Informe de Laboratorio.**
         *   Guardar la versión final del documento para la entrega.
 
----
-**FIN DEL LABORATORIO CALIFICADO**
----
+
