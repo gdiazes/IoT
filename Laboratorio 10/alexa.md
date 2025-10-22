@@ -1,8 +1,5 @@
 ### **Guía de Laboratorio: Control Directo de un LED con Arduino Nano 33 IoT y Alexa**
 
-**Curso:** Tecnologías Emergentes
-**Duración estimada:** 90 minutos
-
 #### **1. Introducción y Objetivos**
 
 Esta práctica de laboratorio demuestra el poder de los microcontroladores modernos con conectividad integrada. Se utilizará un Arduino Nano 33 IoT para conectarse directamente a servicios en la nube, permitiendo el control de un LED mediante comandos de voz a través de Amazon Alexa. Esta arquitectura elimina la necesidad de un gateway intermedio (como un ordenador), representando un sistema IoT más robusto y autónomo.
